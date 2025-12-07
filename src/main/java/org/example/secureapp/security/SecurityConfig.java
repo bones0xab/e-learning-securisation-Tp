@@ -8,7 +8,6 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.web.SecurityFilterChain;
@@ -28,15 +27,13 @@ public class SecurityConfig {
     {
         httpSecurity.csrf((csrf) -> csrf.disable())
                 .cors(Customizer.withDefaults())
-                .headers(headers -> headers.frameOptions(frame -> frame.disable()))
                 .authorizeHttpRequests(
                         (authorize) ->
                                 authorize
-                                .requestMatchers("/h2-console/**").permitAll().
-                                        requestMatchers(HttpMethod.GET, "/courses/**").hasAnyAuthority("ROLE_ADMIN","ROLE_STUDENT")
+                                        .requestMatchers("/h2-console/**").permitAll()
+                                        .requestMatchers(HttpMethod.GET, "/courses/**").hasAnyAuthority("ROLE_ADMIN","ROLE_STUDENT")
                                         .requestMatchers(HttpMethod.POST, "/courses/**").hasAuthority("ROLE_ADMIN")
-                                        .anyRequest().authenticated()
-                )
+                                        .anyRequest().authenticated())
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(converter())));
 
         return httpSecurity.build();
