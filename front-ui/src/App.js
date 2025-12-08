@@ -22,6 +22,7 @@ function App() {
         setError(null);
         try {
             const res = await ApiService.getCourses();
+            console.log("checking the data : " + res);
             setCourses(res.data);
         } catch (err) {
             console.error("Erreur getCourses:", err);

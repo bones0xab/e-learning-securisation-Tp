@@ -29,11 +29,11 @@ api.interceptors.request.use(async (config) => {
 
 const ApiService = {
     getCourses:  () => {
-        return api.get("/");
+        return api.get("");
     },
 
     createCourses: (courseData) => {
-        return api.post("/", courseData);
+        return api.post("", courseData);
     },
 
     getMe: () => {
